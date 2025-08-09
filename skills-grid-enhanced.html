@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safety & Compliance Skills Grid</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-blue: #1a237e;
+            --secondary-blue: #283593;
+            --accent-yellow: #ffd600;
+            --success-green: #4caf50;
+            --warning-orange: #ff9800;
+            --danger-red: #f44336;
+            --light-grey: #f5f5f5;
+            --dark-grey: #424242;
+            --white: #ffffff;
+            --shadow: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-hover: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .skills-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--dark-grey);
+            margin-bottom: 3rem;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .skill-card {
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+            height: 400px;
+            perspective: 1000px;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+
+        .skill-card:hover .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .card-back {
+            transform: rotateY(180deg);
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: var(--white);
+        }
+
+        .skill-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .card-back .skill-icon {
+            color: var(--white);
+            -webkit-text-fill-color: var(--white);
+        }
+
+        .skill-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--primary-blue);
+        }
+
+        .card-back .skill-title {
+            color: var(--white);
+        }
+
+        .skill-description {
+            text-align: center;
+            color: var(--dark-grey);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .card-back .skill-description {
+            color: var(--white);
+            opacity: 0.9;
+        }
+
+        .progress-container {
+            width: 100%;
+            margin: 1rem 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--light-grey);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--success-green), var(--accent-yellow));
+            border-radius: 4px;
+            transition: width 2s ease-in-out;
+            position: relative;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .progress-text {
+            font-size: 0.9rem;
+            color: var(--primary-blue);
+            margin-top: 0.5rem;
+            font-weight: 600;
+        }
+
+        .skill-details {
+            list-style: none;
+            text-align: left;
+            margin-top: 1rem;
+        }
+
+        .skill-details li {
+            margin: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .skill-details li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent-yellow);
+            font-weight: bold;
+        }
+
+        .card-back .skill-details li::before {
+            color: var(--white);
+        }
+
+        .certification-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--success-green);
+            color: var(--white);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .skills-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .skill-card {
+                height: 350px;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .skill-icon {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .skills-section {
+                padding: 40pxI have reviewed the existing index.html and styles.css files. The index.html already has a Skills & Expertise section with skill categories and lists, but it does not have the requested skills grid with icon cards and animated progress bars or flip-card details.
+
+Plan:
+
+Information Gathered:
+- index.html contains a Skills section with skill categories and lists but no icon cards or animated progress bars.
+- styles.css has a modern design with color variables and responsive layout.
+- The project uses FontAwesome icons (linked in index.html).
+- No existing animated progress bars or flip-card style cards for skills.
+
+Plan:
+- Create a new enhanced skills grid section with icon cards for the requested skills:
+  - ISO 45001, ISO 14001, OHSAS 18001
+  - Risk Assessment
+  - JSA & PTW
+  - Incident Investigation
+  - PPE Training
+  - ARAMCO & Royal Commission Standards
+- Each card will have an icon, skill name, and either an animated progress bar or flip-card details.
+- Use FontAwesome icons where appropriate or fallback to text if no icon matches.
+- Add necessary CSS for the grid layout, card styling, animations, and flip effect.
+- Add JavaScript if needed for flip-card interaction or progress bar animation.
+- Integrate this new section into index.html, preferably replacing or supplementing the existing Skills section.
+- Ensure responsiveness and theme compatibility with existing styles.
+
+Dependent Files to be edited:
+- index.html (add new skills grid section)
+- styles.css (add styles for skills grid, cards, animations)
+- script.js (add any needed JS for animations or flip cards)
+
+Followup steps:
+- Implement the new skills grid section in index.html.
+- Add corresponding CSS in styles.css.
+- Add JS in script.js if needed.
+- Test the new section in the browser for correct display and animations.
+
+Please confirm if I can proceed with this plan or if you want me to modify or add anything else. 
+
+<ask_followup_question>
+<question>May I proceed with creating the enhanced skills grid with animated icon cards and progress bars/flip cards as described?</question>
+</ask_followup_question>
